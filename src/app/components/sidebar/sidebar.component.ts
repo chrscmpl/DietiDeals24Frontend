@@ -4,10 +4,19 @@ import { WindowService } from '../../services/window.service';
 import { AsyncPipe } from '@angular/common';
 import { LogoComponent } from '../logo/logo.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { mainPages } from '../../helpers/links';
-import { Observable, delay, map, of, startWith, switchMap } from 'rxjs';
+import {
+    Observable,
+    combineLatestWith,
+    delay,
+    map,
+    of,
+    startWith,
+    switchMap,
+} from 'rxjs';
 import { CategoriesService } from '../../services/categories.service';
 import { MenuItem } from 'primeng/api';
+import { NavigationService } from '../../services/navigation.service';
+import { link } from '../../helpers/links';
 
 @Component({
     selector: 'dd24-sidebar',
@@ -17,51 +26,25 @@ import { MenuItem } from 'primeng/api';
     styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-    private readonly mainPagesMenuItems: MenuItem[] = mainPages.map((page) => {
-        return {
-            label: page.name,
-            routerLink: page.url,
-            icon: page.icon,
-            command: () => this.hideSidebar(),
-        } as MenuItem;
-    });
-
     constructor(
         public readonly windowService: WindowService,
-        private readonly accessoryInformation: CategoriesService,
-    ) {
-        this.mainPagesMenuItems.splice(this.mainPagesMenuItems.length - 1, 0, {
-            label: 'Settings',
-            icon: 'pi pi-cog',
-            items: [
-                {
-                    label: 'Theme',
-                    icon: 'pi pi-palette',
-                    routerLink: [
-                        {
-                            outlets: {
-                                overlay: ['settings', 'theme'],
-                            },
-                        },
-                    ],
-                    command: () => this.hideSidebar(),
-                },
-            ],
-        });
-    }
+        private readonly categoriesService: CategoriesService,
+        private readonly navigationService: NavigationService,
+    ) {}
 
     public items$: Observable<MenuItem[]> = of([]);
 
     ngOnInit() {
-        this.items$ = this.accessoryInformation.trendingCategories$.pipe(
+        this.items$ = this.categoriesService.trendingCategories$.pipe(
             startWith([]),
             switchMap((categories) => {
                 if (categories.length === 0)
                     return of(categories).pipe(delay(1000));
                 return of(categories);
             }),
-            map((categories) => {
-                const items: MenuItem[] = [...this.mainPagesMenuItems];
+            combineLatestWith(this.navigationService.mainPages$),
+            map(([categories, mainPages]) => {
+                const items: MenuItem[] = this.pagesToMenuItems(mainPages);
                 if (categories.length === 0) return items;
                 const categoriesItem: MenuItem = {
                     label: 'Trending Categories',
@@ -82,5 +65,35 @@ export class SidebarComponent implements OnInit {
 
     public hideSidebar(): void {
         this.windowService.isSidebarVisible = false;
+    }
+
+    private pagesToMenuItems(pages: link[]): MenuItem[] {
+        const items = pages.map((page) => {
+            return {
+                label: page.name,
+                routerLink: page.url,
+                icon: page.icon,
+                command: () => this.hideSidebar(),
+            } as MenuItem;
+        });
+        items.splice(pages.length - 1, 0, {
+            label: 'Settings',
+            icon: 'pi pi-cog',
+            items: [
+                {
+                    label: 'Theme',
+                    icon: 'pi pi-palette',
+                    routerLink: [
+                        {
+                            outlets: {
+                                overlay: ['settings', 'theme'],
+                            },
+                        },
+                    ],
+                    command: () => this.hideSidebar(),
+                },
+            ],
+        });
+        return items;
     }
 }

@@ -4,14 +4,13 @@ import { SearchSectionComponent } from '../search-section/search-section.compone
 import { RouterLink } from '@angular/router';
 import { RoutingUtilsService } from '../../services/routing-utils.service';
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
-import { link, mainPages } from '../../helpers/links';
 import { ButtonModule } from 'primeng/button';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { Observable, catchError, map, of } from 'rxjs';
 import { WindowService } from '../../services/window.service';
 import { LogoComponent } from '../logo/logo.component';
-import { RedirectionService } from '../../services/redirection.service';
+import { NavigationService } from '../../services/navigation.service';
 
 const HIDDEN_QUERY_PARAMS = ['keywords'];
 
@@ -36,10 +35,9 @@ export class HeaderComponent {
         public readonly authenticationService: AuthenticationService,
         public readonly routingUtils: RoutingUtilsService,
         public readonly windowService: WindowService,
-        public readonly redirectionService: RedirectionService,
+        public readonly navigationService: NavigationService,
     ) {}
 
-    tabs: link[] = mainPages;
     titleCasePipe: TitleCasePipe = new TitleCasePipe();
 
     public routes$: Observable<MenuItem[]> =

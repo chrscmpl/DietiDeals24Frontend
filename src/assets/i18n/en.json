@@ -1,0 +1,23 @@
+{
+    "DD24": "DietiDeals24",
+    "NAV": {
+        "PAGES": {
+            "HOME": "Home",
+            "YOUR_PAGE": "Your Page",
+            "CREATE_AUCTION": "Create Auction",
+            "SECURITY&PRIVACY": "Security & Privacy",
+            "HELP": "Help"
+        },
+        "FOOTER": {
+            "ABOUT": "2023-2024, INGSW2324_12"
+        }
+    },
+    "HOME": {
+        "TRENDING_CATEGORIES": "Trending Categories",
+        "TRENDING_AUCTIONS": "Trending Auctions",
+        "CA_BANNER": "Are you buying or selling? Take your first step.",
+        "YP_BANNER": "See how your auctions are currently doing.",
+        "CA_BUTTON": "Create an auction",
+        "YP_BUTTON": "View your page"
+    }
+}

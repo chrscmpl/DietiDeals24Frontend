@@ -8,6 +8,7 @@ import { AuctionListComponent } from '../../components/auction-list/auction-list
 import { AuctionsService } from '../../services/auctions.service';
 import { ButtonModule } from 'primeng/button';
 import { WindowService } from '../../services/window.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'dd24-home-page',
@@ -18,6 +19,7 @@ import { WindowService } from '../../services/window.service';
         AuctionCardComponent,
         AuctionListComponent,
         ButtonModule,
+        TranslateModule,
     ],
     templateUrl: './home-page.component.html',
     styleUrl: './home-page.component.scss',

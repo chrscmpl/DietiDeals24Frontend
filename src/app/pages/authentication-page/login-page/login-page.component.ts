@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputComponent } from '../../../components/input/input.component';
 import { DividerModule } from 'primeng/divider';
-import { RedirectionService } from '../../../services/redirection.service';
+import { NavigationService } from '../../../services/navigation.service';
 
 interface loginForm {
     email: FormControl<string | null>;
@@ -42,7 +42,7 @@ export class LoginPageComponent implements OnInit {
 
     constructor(
         private readonly authenticationService: AuthenticationService,
-        private readonly redirect: RedirectionService,
+        private readonly redirect: NavigationService,
         private readonly formBuilder: FormBuilder,
     ) {}
 

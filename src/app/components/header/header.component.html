@@ -14,9 +14,7 @@
                     class="nav-auth-btn"
                     severity="secondary"
                     (onClick)="
-                        redirectionService.navigateRedirectingBack(
-                            '/auth/login'
-                        )
+                        navigationService.navigateRedirectingBack('/auth/login')
                     "
                 >
                     Login
@@ -25,7 +23,7 @@
                     class="nav-auth-btn"
                     severity="secondary"
                     (onClick)="
-                        redirectionService.navigateRedirectingBack(
+                        navigationService.navigateRedirectingBack(
                             '/auth/register'
                         )
                     "
@@ -41,7 +39,10 @@
         </section>
         <section class="navbar-tabs-section">
             <section class="navbar-tabs">
-                @for (tab of tabs; track $index) {
+                @for (
+                    tab of navigationService.mainPages$ | async;
+                    track $index
+                ) {
                     <a class="navbar-tab custom-link" [routerLink]="tab.url">{{
                         tab.name
                     }}</a>

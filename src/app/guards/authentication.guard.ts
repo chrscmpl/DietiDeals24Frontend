@@ -6,7 +6,7 @@ import {
     Router,
     RouterStateSnapshot,
 } from '@angular/router';
-import { RedirectionService } from '../services/redirection.service';
+import { NavigationService } from '../services/navigation.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { map } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { map } from 'rxjs';
 export class AuthenticationGuard implements CanActivate {
     constructor(
         private router: Router,
-        private redirection: RedirectionService,
+        private redirection: NavigationService,
         private authenticationService: AuthenticationService,
     ) {}
 

@@ -7,11 +7,6 @@
 
     .trending-categories {
         @include layouts.flex(column, start, stretch, 0.5em);
-        > :first-child {
-            font-size: var(--font-size-medium);
-            font-weight: var(--font-weight-regular);
-            align-self: start;
-        }
         .trending-categories-buttons {
             @include layouts.grid(
                 $template: 1fr / repeat(auto-fit, minmax(15ch, 1fr)),
@@ -34,6 +29,12 @@
                 height: 3.5em;
             }
         }
+    }
+
+    h2 {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-regular);
+        align-self: start;
     }
 
     .create-auction-banner {
