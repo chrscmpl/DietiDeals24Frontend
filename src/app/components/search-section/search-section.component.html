@@ -17,7 +17,7 @@
         <p-dropdown
             class="auction-type-selection"
             formControlName="type"
-            [options]="auctionTypeOptions"
+            [options]="(auctionTypeOptions$ | async) ?? []"
             optionLabel="name"
             optionValue="value"
         >

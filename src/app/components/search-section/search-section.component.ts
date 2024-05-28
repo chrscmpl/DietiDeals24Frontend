@@ -19,7 +19,9 @@ import {
     AuctionType,
 } from '../../typeUtils/auction.utils';
 import { CategoriesService } from '../../services/categories.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Observable, forkJoin, map, shareReplay } from 'rxjs';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 
 interface searchForm {
     keywords: FormControl<string | null>;
@@ -45,6 +47,7 @@ interface option {
         OneCharUpperPipe,
         CategorySelectionComponent,
         TranslateModule,
+        AsyncPipe,
     ],
     templateUrl: './search-section.component.html',
     styleUrl: './search-section.component.scss',
@@ -52,15 +55,27 @@ interface option {
 export class SearchSectionComponent implements OnInit {
     public searchForm!: FormGroup<searchForm>;
 
-    public auctionTypeOptions: option[] = [
-        { name: 'All auctions', value: null },
-    ];
+    public auctionTypeOptions$: Observable<option[]> = forkJoin(
+        ['ALL', ...(Object.values(AuctionType) as string[])].map((type) => {
+            return this.translate
+                .get(
+                    `NAV.SEARCH.AUCTION_TYPES.${this.upperCasePipe.transform(type)}`,
+                )
+                .pipe(
+                    map((label) => ({
+                        name: label,
+                        value: type !== 'ALL' ? type : null,
+                    })),
+                );
+        }),
+    ).pipe(shareReplay(1));
 
     constructor(
         private readonly formBuilder: FormBuilder,
-        private readonly oneCharUpperPipe: OneCharUpperPipe,
         private readonly router: Router,
         private readonly categoriesService: CategoriesService,
+        private readonly translate: TranslateService,
+        private readonly upperCasePipe: UpperCasePipe,
     ) {}
 
     public ngOnInit(): void {
@@ -69,15 +84,6 @@ export class SearchSectionComponent implements OnInit {
             type: new FormControl<AuctionType | null>(null),
             category: new FormControl<string | null>(null),
         });
-
-        this.auctionTypeOptions = this.auctionTypeOptions.concat(
-            Object.values(AuctionType).map((type) => {
-                return {
-                    name: `${this.oneCharUpperPipe.transform(type)} auctions`,
-                    value: type as string,
-                };
-            }),
-        );
     }
 
     public handleSubmit(): void {

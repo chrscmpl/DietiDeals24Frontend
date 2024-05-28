@@ -21,7 +21,7 @@
         },
         "SEARCH": {
             "KEYWORDS_PLACEHOLDER": "What are you looking for?",
-            "AUCTIONS_TYPES": {
+            "AUCTION_TYPES": {
                 "ALL": "All auctions",
                 "SILENT": "Silent auctions",
                 "REVERSE": "Reverse auctions"

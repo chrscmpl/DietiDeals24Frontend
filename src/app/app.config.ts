@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { LocalDatePipe } from './pipes/local-date.pipe';
 import { OneCharUpperPipe } from './pipes/one-char-upper.pipe';
-import { DatePipe } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { IntervalPipe } from './pipes/interval.pipe';
 import {
@@ -38,6 +38,7 @@ export const appConfig: ApplicationConfig = {
         DatePipe,
         IntervalPipe,
         CurrencyPipe,
+        UpperCasePipe,
         AuctionsRequestGuard,
         HideUIGuard,
         ShowUIGuard,
