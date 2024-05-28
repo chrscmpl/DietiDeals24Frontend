@@ -7,10 +7,19 @@ import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
-import { Observable, catchError, map, of } from 'rxjs';
+import {
+    Observable,
+    catchError,
+    forkJoin,
+    map,
+    of,
+    shareReplay,
+    switchMap,
+} from 'rxjs';
 import { WindowService } from '../../services/window.service';
 import { LogoComponent } from '../logo/logo.component';
 import { NavigationService } from '../../services/navigation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 const HIDDEN_QUERY_PARAMS = ['keywords'];
 
@@ -36,36 +45,52 @@ export class HeaderComponent {
         public readonly routingUtils: RoutingUtilsService,
         public readonly windowService: WindowService,
         public readonly navigationService: NavigationService,
+        private readonly translation: TranslateService,
     ) {}
 
     titleCasePipe: TitleCasePipe = new TitleCasePipe();
 
     public routes$: Observable<MenuItem[]> =
         this.routingUtils.currentLocation$.pipe(
-            map((location) => {
+            switchMap((location) => {
                 const url: string[] = [];
-                let menuItems: MenuItem[] = this.PathToMenuItems(
-                    location.path,
-                    url,
+                return forkJoin(this.PathToMenuItems(location.path, url)).pipe(
+                    map((menuItems) => {
+                        menuItems = menuItems.concat(
+                            this.queryToMenuItems(location.query, url),
+                        );
+                        return menuItems;
+                    }),
                 );
-                menuItems = menuItems.concat(
-                    this.queryToMenuItems(location.query, url),
-                );
-                return menuItems;
             }),
             catchError((e) => {
                 console.error(e);
                 return of([]) as Observable<MenuItem[]>;
             }),
+            shareReplay(1),
         );
 
-    private PathToMenuItems(path: string[], url: string[]): MenuItem[] {
+    private PathToMenuItems(
+        path: string[],
+        url: string[],
+    ): Observable<MenuItem>[] {
         return path.map((entry) => {
             url.push(entry);
-            return {
-                label: this.titleCasePipe.transform(entry.replace(/-/g, ' ')),
-                routerLink: url,
-            };
+            return this.translation.get(`ROUTES.${entry}`).pipe(
+                map((translation) =>
+                    translation !== entry
+                        ? translation
+                        : this.titleCasePipe.transform(
+                              entry.replace(/-/g, ' '),
+                          ),
+                ),
+                map((label) => {
+                    return {
+                        label,
+                        routerLink: url,
+                    };
+                }),
+            );
         });
     }
 

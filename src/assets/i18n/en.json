@@ -6,10 +6,28 @@
             "YOUR_PAGE": "Your Page",
             "CREATE_AUCTION": "Create Auction",
             "SECURITY&PRIVACY": "Security & Privacy",
-            "HELP": "Help"
+            "HELP": "Help",
+            "SETTINGS": {
+                "HEADER": "Settings",
+                "THEMES": "Themes"
+            }
         },
         "FOOTER": {
             "ABOUT": "2023-2024, INGSW2324_12"
+        }
+    },
+    "ROUTES": {
+        "home": "Home",
+        "your-page": "Your Page",
+        "auctions": "Auctions",
+        "create-auction": "Create an Auction",
+        "help": "Help",
+        "settings": "Settings",
+        "auth": {
+            "root": "Authentication",
+            "login": "Login",
+            "register": "Registration",
+            "forgot-password": "Forgot Password"
         }
     },
     "HOME": {

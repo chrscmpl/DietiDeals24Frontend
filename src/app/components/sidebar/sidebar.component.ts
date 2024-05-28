@@ -17,6 +17,7 @@ import { CategoriesService } from '../../services/categories.service';
 import { MenuItem } from 'primeng/api';
 import { NavigationService } from '../../services/navigation.service';
 import { link } from '../../helpers/links';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'dd24-sidebar',
@@ -30,6 +31,7 @@ export class SidebarComponent implements OnInit {
         public readonly windowService: WindowService,
         private readonly categoriesService: CategoriesService,
         private readonly navigationService: NavigationService,
+        private readonly translation: TranslateService,
     ) {}
 
     public items$: Observable<MenuItem[]> = of([]);
@@ -42,9 +44,11 @@ export class SidebarComponent implements OnInit {
                     return of(categories).pipe(delay(1000));
                 return of(categories);
             }),
-            combineLatestWith(this.navigationService.mainPages$),
+            combineLatestWith(
+                this.pagesToMenuItems$(this.navigationService.mainPages$),
+            ),
             map(([categories, mainPages]) => {
-                const items: MenuItem[] = this.pagesToMenuItems(mainPages);
+                const items: MenuItem[] = mainPages;
                 if (categories.length === 0) return items;
                 const categoriesItem: MenuItem = {
                     label: 'Trending Categories',
@@ -67,33 +71,43 @@ export class SidebarComponent implements OnInit {
         this.windowService.isSidebarVisible = false;
     }
 
-    private pagesToMenuItems(pages: link[]): MenuItem[] {
-        const items = pages.map((page) => {
-            return {
-                label: page.name,
-                routerLink: page.url,
-                icon: page.icon,
-                command: () => this.hideSidebar(),
-            } as MenuItem;
-        });
-        items.splice(pages.length - 1, 0, {
-            label: 'Settings',
-            icon: 'pi pi-cog',
-            items: [
-                {
-                    label: 'Theme',
-                    icon: 'pi pi-palette',
-                    routerLink: [
+    private pagesToMenuItems$(
+        pages: Observable<link[]>,
+    ): Observable<MenuItem[]> {
+        return pages.pipe(
+            combineLatestWith(
+                this.translation.get('NAV.PAGES.SETTINGS.HEADER'),
+                this.translation.get('NAV.PAGES.SETTINGS.THEMES'),
+            ),
+            map(([pages, settingsLabel, themesLabel]) => {
+                const items = pages.map((page) => {
+                    return {
+                        label: page.name,
+                        routerLink: page.url,
+                        icon: page.icon,
+                        command: () => this.hideSidebar(),
+                    } as MenuItem;
+                });
+                items.splice(pages.length - 1, 0, {
+                    label: settingsLabel,
+                    icon: 'pi pi-cog',
+                    items: [
                         {
-                            outlets: {
-                                overlay: ['settings', 'theme'],
-                            },
+                            label: themesLabel,
+                            icon: 'pi pi-palette',
+                            routerLink: [
+                                {
+                                    outlets: {
+                                        overlay: ['settings', 'theme'],
+                                    },
+                                },
+                            ],
+                            command: () => this.hideSidebar(),
                         },
                     ],
-                    command: () => this.hideSidebar(),
-                },
-            ],
-        });
-        return items;
+                });
+                return items;
+            }),
+        );
     }
 }
