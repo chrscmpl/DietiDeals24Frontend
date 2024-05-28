@@ -17,7 +17,7 @@
                         navigationService.navigateRedirectingBack('/auth/login')
                     "
                 >
-                    Login
+                    {{ "NAV.ACTIONS.LOGIN" | translate }}
                 </p-button>
                 <p-button
                     class="nav-auth-btn"
@@ -28,7 +28,7 @@
                         )
                     "
                 >
-                    Register
+                    {{ "NAV.ACTIONS.REGISTER" | translate }}
                 </p-button>
             } @else {
                 <span>logged</span>
@@ -52,11 +52,7 @@
                 <p-breadcrumb
                     class="max-w-full"
                     [model]="(routes$ | async) ?? []"
-                    [home]="{
-                        icon: 'pi pi-home',
-                        label: 'DietiDeals24',
-                        routerLink: '/'
-                    }"
+                    [home]="(homepageEntry$ | async) ?? { label: 'DD24' }"
                 />
             </section>
         </section>

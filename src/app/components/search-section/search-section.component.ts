@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -19,7 +19,7 @@ import {
     AuctionType,
 } from '../../typeUtils/auction.utils';
 import { CategoriesService } from '../../services/categories.service';
-import { Observable, ReplaySubject, Subscription, startWith, take } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface searchForm {
     keywords: FormControl<string | null>;
@@ -44,6 +44,7 @@ interface option {
         DropdownModule,
         OneCharUpperPipe,
         CategorySelectionComponent,
+        TranslateModule,
     ],
     templateUrl: './search-section.component.html',
     styleUrl: './search-section.component.scss',

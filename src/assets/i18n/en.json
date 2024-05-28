@@ -1,6 +1,10 @@
 {
     "DD24": "DietiDeals24",
     "NAV": {
+        "ACTIONS": {
+            "LOGIN": "Login",
+            "REGISTER": "Register"
+        },
         "PAGES": {
             "HOME": "Home",
             "YOUR_PAGE": "Your Page",
@@ -14,6 +18,15 @@
         },
         "FOOTER": {
             "ABOUT": "2023-2024, INGSW2324_12"
+        },
+        "SEARCH": {
+            "KEYWORDS_PLACEHOLDER": "What are you looking for?",
+            "AUCTIONS_TYPES": {
+                "ALL": "All auctions",
+                "SILENT": "Silent auctions",
+                "REVERSE": "Reverse auctions"
+            },
+            "BUTTON_TEXT": "Search"
         }
     },
     "ROUTES": {

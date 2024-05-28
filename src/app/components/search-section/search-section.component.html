@@ -10,7 +10,7 @@
             </p-inputGroupAddon>
             <input
                 pInputText
-                placeholder="What are you looking for?"
+                [placeholder]="'NAV.SEARCH.KEYWORDS_PLACEHOLDER' | translate"
                 formControlName="keywords"
             />
         </p-inputGroup>
@@ -32,6 +32,6 @@
         type="submit"
         class="search-button"
         icon="pi pi-search"
-        label="Search"
+        [label]="'NAV.SEARCH.BUTTON_TEXT' | translate"
     ></p-button>
 </form>

@@ -19,7 +19,7 @@ import {
 import { WindowService } from '../../services/window.service';
 import { LogoComponent } from '../logo/logo.component';
 import { NavigationService } from '../../services/navigation.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 const HIDDEN_QUERY_PARAMS = ['keywords'];
 
@@ -35,6 +35,7 @@ const HIDDEN_QUERY_PARAMS = ['keywords'];
         BreadcrumbModule,
         TitleCasePipe,
         LogoComponent,
+        TranslateModule,
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',
@@ -109,4 +110,15 @@ export class HeaderComponent {
                 queryParams: { [queryParameter[0]]: queryParameter[1] },
             }));
     }
+
+    public homepageEntry$: Observable<MenuItem> = this.translation
+        .get('DD24')
+        .pipe(
+            map((label) => ({
+                label,
+                icon: 'pi pi-home',
+                routerLink: '/',
+            })),
+            shareReplay(1),
+        );
 }
