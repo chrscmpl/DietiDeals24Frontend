@@ -1,7 +1,7 @@
 <div class="form-card">
-    <h1>Log into DietiDeals24</h1>
+    <h1>{{ "LOGIN.HEADER" | translate }}</h1>
     <a routerLink="../register" class="registration-link link">
-        you don't have an account?
+        {{ "LOGIN.REGISTER_LINK" | translate }}
     </a>
     <form class="google-login">
         <p-button
@@ -10,26 +10,32 @@
             severity="secondary"
         >
             <img src="assets/google.svg" alt="google-logo" />
-            CONTINUE WITH GOOGLE
+            {{ "LOGIN.GOOGLE_FORM.BUTTON_TEXT" | translate }}
         </p-button>
     </form>
 
-    <p-divider class="divider" align="center">or</p-divider>
+    <p-divider class="divider" align="center">{{
+        "LOGIN.SEPARATOR_TEXT" | translate
+    }}</p-divider>
 
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="dd24Login()">
         <section class="inputs">
             <div class="input email-input">
-                <label for="email">Email</label>
+                <label for="email">{{
+                    "LOGIN.FORM.EMAIL.LABEL" | translate
+                }}</label>
                 <dd24-input
                     controlName="email"
                     [errorMessages]="[
                         {
                             validation: 'required',
-                            message: 'an email is required'
+                            message:
+                                ('LOGIN.FORM.EMAIL.ERRORS.REQUIRED' | translate)
                         },
                         {
                             validation: 'email',
-                            message: 'please enter a valid email'
+                            message:
+                                ('LOGIN.FORM.EMAIL.ERRORS.EMAIL' | translate)
                         }
                     ]"
                 >
@@ -39,24 +45,31 @@
                         pInputText
                         formControlName="email"
                         name="email"
-                        placeholder="Your email"
+                        [placeholder]="
+                            'LOGIN.FORM.EMAIL.PLACEHOLDER' | translate
+                        "
                         id="email"
                     />
                 </dd24-input>
             </div>
             <div class="input password-input">
-                <label for="password">Password</label>
+                <label for="password">{{
+                    "LOGIN.FORM.PASSWORD.LABEL" | translate
+                }}</label>
                 <dd24-input
                     controlName="password"
                     [errorMessages]="[
                         {
                             validation: 'required',
-                            message: 'a password is required'
+                            message:
+                                ('LOGIN.FORM.PASSWORD.ERRORS.REQUIRED'
+                                | translate)
                         },
                         {
                             validation: ['pattern', 'minlength', 'maxlength'],
                             message:
-                                'a password must be at least 8 characters long, and contain at least one lowercase letter, one uppercase letter, and one special character.'
+                                ('LOGIN.FORM.PASSWORD.ERRORS.INVALID'
+                                | translate)
                         }
                     ]"
                 >
@@ -67,18 +80,24 @@
                         name="password"
                         [feedback]="false"
                         toggleMask="true"
-                        placeholder="Your password"
+                        [placeholder]="
+                            'LOGIN.FORM.PASSWORD.PLACEHOLDER' | translate
+                        "
                         inputId="password"
                     />
                 </dd24-input>
             </div>
         </section>
         <a routerLink="../forgot-password" class="link">
-            forgot your password?
+            {{ "LOGIN.FORGOT_PASSWORD_LINK" | translate }}
         </a>
         @if (error) {
             <span class="error">{{ error }}</span>
         }
-        <p-button label="Login" type="submit" class="login-submit"></p-button>
+        <p-button
+            [label]="'LOGIN.BUTTON_TEXT' | translate"
+            type="submit"
+            class="login-submit"
+        ></p-button>
     </form>
 </div>

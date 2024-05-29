@@ -15,6 +15,7 @@ import { PasswordModule } from 'primeng/password';
 import { InputComponent } from '../../../components/input/input.component';
 import { DividerModule } from 'primeng/divider';
 import { NavigationService } from '../../../services/navigation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface loginForm {
     email: FormControl<string | null>;
@@ -32,6 +33,7 @@ interface loginForm {
         ButtonModule,
         PasswordModule,
         DividerModule,
+        TranslateModule,
     ],
     templateUrl: './login-page.component.html',
     styleUrl: './login-page.component.scss',

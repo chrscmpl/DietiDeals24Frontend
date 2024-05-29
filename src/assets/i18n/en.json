@@ -1,5 +1,6 @@
 {
     "DD24": "DietiDeals24",
+
     "NAV": {
         "ACTIONS": {
             "LOGIN": "Login",
@@ -29,6 +30,7 @@
             "BUTTON_TEXT": "Search"
         }
     },
+
     "ROUTES": {
         "home": "Home",
         "your-page": "Your Page",
@@ -43,6 +45,7 @@
             "forgot-password": "Forgot Password"
         }
     },
+
     "HOME": {
         "TRENDING_CATEGORIES": "Trending Categories",
         "TRENDING_AUCTIONS": "Trending Auctions",
@@ -50,5 +53,34 @@
         "YP_BANNER": "See how your auctions are currently doing.",
         "CA_BUTTON": "Create an auction",
         "YP_BUTTON": "View your page"
+    },
+
+    "LOGIN": {
+        "HEADER": "Login to DietiDeals24",
+        "REGISTER_LINK": "you don't have an account?",
+        "FORGOT_PASSWORD_LINK": "forgot your password?",
+        "BUTTON_TEXT": "Login",
+        "GOOGLE_FORM": {
+            "BUTTON_TEXT": "CONTINUE WITH GOOGLE"
+        },
+        "SEPARATOR_TEXT": "or",
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Email",
+                "PLACEHOLDER": "Your email",
+                "ERRORS": {
+                    "REQUIRED": "an email is required",
+                    "EMAIL": "please enter a valid email"
+                }
+            },
+            "PASSWORD": {
+                "LABEL": "Password",
+                "PLACEHOLDER": "Your password",
+                "ERRORS": {
+                    "REQUIRED": "a password is required",
+                    "INVALID": "a password must be at least 8 characters long, and contain at least one lowercase letter, one uppercase letter, and one special character."
+                }
+            }
+        }
     }
 }
